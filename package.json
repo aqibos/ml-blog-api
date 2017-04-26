@@ -36,7 +36,6 @@
   },
   "homepage": "https://github.com/ashah023/ml-blog-api#readme",
   "dependencies": {
-    "app-module-path": "^2.2.0",
     "awilix": "^2.2.5",
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
