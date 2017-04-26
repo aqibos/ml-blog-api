@@ -1,6 +1,6 @@
 import { camelifyOutKeys } from '../utilities/functionalUtil.js';
 
-export default function UserRepo({ knex }) {
+export default function userRepo({ knex }) {
 
   return {
     byUsername: camelifyOutKeys(byUsername),
@@ -8,14 +8,21 @@ export default function UserRepo({ knex }) {
   };
 
   async function byUsername(username) {
-    const x = await knex('users').where({ username });
-    return x[0];
+    return await knex('users')
+      .where({ username })
+      .first('*')
   }
 
   async function byId(id) {
     return await knex('users')
       .where({ id })
-      .first('*')
-      .returning('*');
+      .first('*');
+  }
+
+  async function create(params) {
+    return (await knex('users')
+      .insert(params)
+      .returning('*')
+    )[0];
   }
 }
