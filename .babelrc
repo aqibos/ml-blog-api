@@ -1,0 +1,6 @@
+{
+  "presets": ["es2015", "es2017"],
+  "sourceMaps": "both",
+  "plugins": ["transform-runtime"],
+}
+
