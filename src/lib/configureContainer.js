@@ -2,8 +2,8 @@ import { createContainer, Lifetime } from 'awilix';
 import knex from 'knex';
 
 const productionModules = [
-  // 'services/*.js',
-  // 'repositories/*.js',
+  'services/*.js',
+  'repositories/*.js',
   ['middleware/errorHandler.js', Lifetime.SINGLETON]
 ];
 
