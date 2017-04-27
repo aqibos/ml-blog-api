@@ -1,3 +1,16 @@
+import {
+  InvalidOwnerError,
+  InvalidBlog,
+  InvalidBlogUpdate,
+  InvalidBlogDeletion
+} from '../lib/errors';
+import {
+  validate,
+  newBlogConstraints,
+  modifiyBlogConstraints,
+  deleteBlogConstraints
+} from '../lib/validate';
+
 export default function blogService({ blogRepo }) {
 
   return { getBlog, createBlog, updateBlog, deleteBlog };
@@ -10,21 +23,23 @@ export default function blogService({ blogRepo }) {
   }
 
   async function createBlog(params) {
-    // TODO: Validate params
+    validate(newBlogConstraints, params, InvalidBlog);
     return await blogRepo.create(params);
   }
 
   async function updateBlog(params) {
-    // TODO: Validate params
+    validate(modifiyBlogConstraints, params, InvalidBlogUpdate);
     const { blogId, username } = params;
-    const isOwner = validateOwnership
+    const isOwner = validateOwnership(blogId, username);
+    if (!isOwner) throw new InvalidOwnerError.errorFn(InvalidOwnerError.message);
     return await blogRepo.update(params);
   }
 
   async function deleteBlog(params) {
-    // TODO: Validate params
-    const isOwner = validateOwnership(params.blogId, params.userId);
-    if (!isOwner) { /* TODO: Throw error */ }
+    validate(deleteBlogConstraints, params, InvalidBlogDeletion);
+    const { blogId, username } = params;
+    const isOwner = validateOwnership(blogId, username);
+    if (!isOwner) throw new InvalidOwnerError.errorFn(InvalidOwnerError.message);
     return await blogRepo.del(params);
   }
 

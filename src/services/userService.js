@@ -1,6 +1,6 @@
 import { encodePassword } from '../utilities/password';
 import { validate, registerConstraints } from '../lib/validate';
-import { InvalidRegistration } from '../lib/errors';
+import { InvalidRegistration, DuplicateUsername } from '../lib/errors';
 
 export default function userService({ userRepo }) {
 
@@ -12,6 +12,8 @@ export default function userService({ userRepo }) {
 
   async function createUser(params) {
     validate(registerConstraints, params, InvalidRegistration);
+    const alreadyExists = userRepo.byUsername(params.username);
+    if (alreadyExists) throw new DuplicateUsername.errorFn(DuplicateUsername.message);
     const encryptedPassword = encodePassword(params.password);
     return await userRepo.create({
       username: params.username,

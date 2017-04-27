@@ -111,16 +111,17 @@
     "no-underscore-dangle": 0,
     "no-unreachable": 2,
     "no-unused-expressions": 0,
-    "no-unused-vars": [0, {"vars": "all", "args": "after-used"}],
+    "no-unused-vars": ["error", {"vars": "all", "args": "after-used"}],
     "no-use-before-define": 0,
     "no-void": 0,
-    "no-var": 2,
+    "no-var": 0,
     "no-warning-comments": [0, { "terms": ["todo", "fixme", "xxx"], "location": "start" }],
     "no-with": 2,
     "no-extra-parens": 0,
     "block-scoped-var": 0,
     "brace-style": [2, "1tbs", { "allowSingleLine": true }],
     "camelcase":0,
+    "comma-spacing": 2,
     "comma-style": 2,
     "complexity": [0, 11],
     "consistent-return": 2,
@@ -172,5 +173,13 @@
     "yoda": [2, "never"]
   },
   "globals": {
+    "console": true,
+    "describe": true,
+    "it": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "spyOn": true,
+    "assert": true,
+    "dbResult": true
   }
 }

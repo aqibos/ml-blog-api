@@ -1,7 +1,7 @@
 import { makeInvoker } from '../middleware/invocation';
 import protect from '../middleware/protect';
 import querystring from 'querystring';
-// import { InvalidLogin } from '../lib/errors';
+import { merge } from 'ramda';
 
 function makeCommentApi({ commentService }) {
 
@@ -14,18 +14,23 @@ function makeCommentApi({ commentService }) {
   }
 
   async function postComment(ctx) {
-    ctx.body = await commentService.createComment(ctx.request.body);
+    ctx.body = await commentService.createComment(usernameWithParams(ctx));
     ctx.status = 201;
   }
 
   async function putComment(ctx) {
-    ctx.body = await commentService.updateComment(ctx.request.body);
+    ctx.body = await commentService.updateComment(usernameWithParams(ctx));
     ctx.status = 200;
   }
 
   async function deleteComment(ctx) {
-    ctx.body = await commentService.deleteComment(ctx.request.body);
+    ctx.body = await commentService.deleteComment(usernameWithParams(ctx));
     ctx.status = 200; // TODO: Look up HTTP code for delete
+  }
+
+  // TODO: Move to util -- also used by src/api/blogs.js
+  function usernameWithParams(ctx) {
+    return merge(ctx.request.body, { username: ctx.session.username });
   }
 }
 

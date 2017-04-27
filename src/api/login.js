@@ -1,5 +1,4 @@
 import { makeInvoker } from '../middleware/invocation';
-import protect from '../middleware/protect';
 import { InvalidLogin } from '../lib/errors';
 
 function makeLoginApi({ loginService }) {
@@ -12,9 +11,8 @@ function makeLoginApi({ loginService }) {
     const matchingUser = await loginService.authenticate(username, password);
     if (!matchingUser) throw new InvalidLogin.errorFn(InvalidLogin.message);
 
-    // Set session vars
-    ctx.session.user = matchingUser;
-    ctx.session.userId = matchingUser.id;
+    ctx.session.user = matchingUser; // Add session vars
+    ctx.session.username = matchingUser.username;
 
     ctx.body = matchingUser;
     ctx.status = 200;
@@ -24,9 +22,10 @@ function makeLoginApi({ loginService }) {
     const loggedInUser = ctx.session.user;
     if (loggedInUser) {
       ctx.session.user = null;
-      ctx.session.userId = null;
+      ctx.session.username = null;
     }
-    ctx.noContent();
+    ctx.body = { success: true };
+    ctx.status = 200;
   }
 
 }

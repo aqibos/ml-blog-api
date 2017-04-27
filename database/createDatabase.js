@@ -21,8 +21,8 @@ knex.schema.createTable('users', function(table) {
   });
 })
 .then(function() {
-  console.log('Successfully created table \'posts\'\n'.green);
-  knex.schema.createTable('comments', function(table) {
+  console.log('Successfully created table \'blogs\'\n'.green);
+  return knex.schema.createTable('comments', function(table) {
     table.increments();
     table.integer('post_id');
     // TODO: Ask if can rename to blog_id

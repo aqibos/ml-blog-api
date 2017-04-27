@@ -2,7 +2,7 @@ import { validatePassword } from '../utilities/password';
 
 export default function loginService({ userRepo }) {
 
-  return { authenticate, authenticateByUserId };
+  return { authenticate, authenticateByUsername };
 
   async function authenticate(username, password) {
     const user = await userRepo.byUsername(username);
@@ -10,8 +10,8 @@ export default function loginService({ userRepo }) {
     return correctPassword ? user : null;
   }
 
-  async function authenticateByUserId(userId) {
-    return userId ? await userRepo.byId(userId) : null;
+  async function authenticateByUsername(username) {
+    return username ? await userRepo.byUsername(username) : null;
   }
 
 }
