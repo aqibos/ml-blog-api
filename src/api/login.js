@@ -1,18 +1,21 @@
 import { makeInvoker } from '../middleware/invocation';
 import protect from '../middleware/protect';
-// import { InvalidLogin } from '../lib/errors';
+import { InvalidLogin } from '../lib/errors';
 
 function makeLoginApi({ loginService }) {
 
   return { login, logout };
 
   async function login(ctx) {
-    const { email, password } = ctx.request.body;
-    const matchingUser = await loginService.authenticate(email, password);
-    if (!matchingUser) { /* Throw invalid login error */ return; }
+    const { username, password } = ctx.request.body;
+    console.log('Calling POST /login', JSON.stringify(ctx.request.body, null, 2));
+    const matchingUser = await loginService.authenticate(username, password);
+    if (!matchingUser) throw new InvalidLogin.errorFn(InvalidLogin.message);
 
+    // Set session vars
     ctx.session.user = matchingUser;
     ctx.session.userId = matchingUser.id;
+
     ctx.body = matchingUser;
     ctx.status = 200;
   }
@@ -23,7 +26,7 @@ function makeLoginApi({ loginService }) {
       ctx.session.user = null;
       ctx.session.userId = null;
     }
-    ctx.noContent(); // HTTP: 204
+    ctx.noContent();
   }
 
 }

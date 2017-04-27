@@ -1,4 +1,6 @@
 import { encodePassword } from '../utilities/password';
+import { validate, registerConstraints } from '../lib/validate';
+import { InvalidRegistration } from '../lib/errors';
 
 export default function userService({ userRepo }) {
 
@@ -9,9 +11,12 @@ export default function userService({ userRepo }) {
   }
 
   async function createUser(params) {
-    // TODO: Validate
-    // TOOD: Encode password
-    return await userRepo.create(params);
+    validate(registerConstraints, params, InvalidRegistration);
+    const encryptedPassword = encodePassword(params.password);
+    return await userRepo.create({
+      username: params.username,
+      password: encryptedPassword
+    });
   }
 
 }

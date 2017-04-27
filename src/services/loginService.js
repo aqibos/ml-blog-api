@@ -4,8 +4,8 @@ export default function loginService({ userRepo }) {
 
   return { authenticate, authenticateByUserId };
 
-  async function authenticate(email, password) {
-    const user = await userRepo.byEmail(email);
+  async function authenticate(username, password) {
+    const user = await userRepo.byUsername(username);
     const correctPassword = user && validatePassword(password, user.password);
     return correctPassword ? user : null;
   }

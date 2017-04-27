@@ -1,21 +1,24 @@
-import { camelifyOutKeys } from '../utilities/functionalUtil.js';
+import { camelifyOutKeys, snakeInCamelOut } from '../utilities/functionalUtil.js';
 
 export default function userRepo({ knex }) {
 
   return {
     byUsername: camelifyOutKeys(byUsername),
-    byId: camelifyOutKeys(byId)
+    byId: camelifyOutKeys(byId),
+    create: snakeInCamelOut(create)
   };
 
   async function byUsername(username) {
     return await knex('users')
       .where({ username })
-      .first('*')
+      .select('*')
+      .first('*');
   }
 
   async function byId(id) {
     return await knex('users')
       .where({ id })
+      .select('*')
       .first('*');
   }
 

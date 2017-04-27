@@ -44,6 +44,7 @@
     "bcryptjs": "^2.4.3",
     "change-case": "^3.0.1",
     "colors": "^1.1.2",
+    "custom-error": "^0.2.1",
     "kcors": "^1.3.2",
     "knex": "^0.12.9",
     "koa": "^2.2.0",
@@ -52,6 +53,8 @@
     "koa-respond": "^1.0.1",
     "koa-router": "^7.1.1",
     "koa-session": "^3.4.0",
-    "pg": "^6.1.5"
+    "pg": "^6.1.5",
+    "validate.js": "^0.11.1",
+    "whatwg-fetch": "^2.0.3"
   }
 }

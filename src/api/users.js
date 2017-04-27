@@ -1,6 +1,5 @@
 import { makeInvoker } from '../middleware/invocation';
 import protect from '../middleware/protect';
-// import { InvalidLogin } from '../lib/errors';
 
 function makeUserApi({ userService }) {
 

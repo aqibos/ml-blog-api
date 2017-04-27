@@ -11,7 +11,12 @@ export default function makeErrorHandler() {
       const matchedErr = statusMaps.find(x => e instanceof x[0]);
       ctx.status = matchedErr ? matchedErr[1] : 500;
       // if (process.argv.indexOf('--showerr') !== -1) console.log(e);
-      const errResponse = {success: false, message: `${e.name}: ${e.message}`, data: e.data};
+      const errResponse = {
+        success: false,
+        name: e.name,
+        message: `${e.message}`,
+        data: e.data
+      };
       ctx.body = errResponse;
     }
   };
