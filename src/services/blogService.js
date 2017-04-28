@@ -30,7 +30,7 @@ export default function blogService({ blogRepo }) {
   async function updateBlog(params) {
     validate(modifiyBlogConstraints, params, InvalidBlogUpdate);
     const { blogId, username } = params;
-    const isOwner = validateOwnership(blogId, username);
+    const isOwner = await validateOwnership(blogId, username);
     if (!isOwner) throw new InvalidOwnerError.errorFn(InvalidOwnerError.message);
     return await blogRepo.update(params);
   }
@@ -38,7 +38,7 @@ export default function blogService({ blogRepo }) {
   async function deleteBlog(params) {
     validate(deleteBlogConstraints, params, InvalidBlogDeletion);
     const { blogId, username } = params;
-    const isOwner = validateOwnership(blogId, username);
+    const isOwner = await validateOwnership(blogId, username);
     if (!isOwner) throw new InvalidOwnerError.errorFn(InvalidOwnerError.message);
     return await blogRepo.del(params);
   }

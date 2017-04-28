@@ -4,7 +4,7 @@ import { InvalidRegistration, DuplicateUsername } from '../lib/errors';
 
 export default function userService({ userRepo }) {
 
-j return { getMe, createUser };
+  return { getMe, createUser };
 
   async function getMe(userId) {
     return await userRepo.byId(userId);

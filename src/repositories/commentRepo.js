@@ -14,12 +14,13 @@ export default function commentRepo({ knex }) {
   };
 
   async function all() {
-    return await knex('comments');
+    return await knex('comments').orderBy('datetime', 'asc');
   }
 
   async function byBlogId(blogId) {
     return await knex('comments')
-    .where({ post_id: blogId });
+    .where({ post_id: blogId })
+    .orderBy('datetime', 'asc');
   }
 
   async function byUsername(username) {

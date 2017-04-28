@@ -31,14 +31,16 @@ export default function commentService({ commentRepo }) {
   async function updateComment(params) {
     validate(modifyCommentConstraints, params, InvalidCommentUpdate);
     const { commentId, username } = params;
-    validateOwnership(commentId, username);
+    const isOwner = await validateOwnership(commentId, username);
+    console.log('Is owner', isOwner);
+    if (!isOwner) throw new InvalidOwnerError.errorFn(InvalidOwnerError.message);
     return await commentRepo.update(params);
   }
 
   async function deleteComment(params) {
     validate(deleteCommentConstraints, params, InvalidCommentDeletion);
     const { commentId, username } = params;
-    const isOwner = validateOwnership(commentId, username);
+    const isOwner = await validateOwnership(commentId, username);
     if (!isOwner) throw new InvalidOwnerError.errorFn(InvalidOwnerError.message);
     return await commentRepo.del(params);
   }
@@ -46,7 +48,7 @@ export default function commentService({ commentRepo }) {
   // TODO: Move into util or 'src/lib/validate.js'
   //       Wrap throwable logic in new func, so don't have to do it manually
   async function validateOwnership(commentId, username) {
-    const blog = await commentRepo.byId(commentId);
-    return blog && blog.username === username;
+    const comment = await commentRepo.byId(commentId);
+    return comment && comment.username === username;
   }
 }
