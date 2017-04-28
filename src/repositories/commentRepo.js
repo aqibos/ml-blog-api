@@ -10,7 +10,8 @@ export default function commentRepo({ knex }) {
     all:        camelifyOutKeys(all),
     create:     snakeInCamelOut(create),
     update:     snakeInCamelOut(update),
-    del:        snakeInCamelOut(del)
+    del:        snakeInCamelOut(del),
+    delByBlogId: snakeInCamelOut(delByBlogId)
   };
 
   async function all() {
@@ -58,6 +59,14 @@ export default function commentRepo({ knex }) {
     return (await knex('comments')
       .del()
       .where({ id: params.comment_id })
+      .returning('*')
+    )[0];
+  }
+
+  async function delByBlogId(blogId) {
+    return (await knex('comments')
+      .del()
+      .where({ post_id: blogId })
       .returning('*')
     )[0];
   }

@@ -1,10 +1,11 @@
 import { camelifyOutKeys, snakeInCamelOut } from '../utilities/functionalUtil.js';
+import { omit } from 'ramda';
 
-export default function blogRepo({ knex }) {
+export default function blogRepo({ knex, commentRepo }) {
 
   return {
     byId     : camelifyOutKeys(byId),
-    byUserId : camelifyOutKeys(byId),
+    byUsername : camelifyOutKeys(byUsername),
     all      : camelifyOutKeys(all),
     create   : snakeInCamelOut(create),
     update   : snakeInCamelOut(update),
@@ -15,7 +16,7 @@ export default function blogRepo({ knex }) {
     return await knex('blogs');
   }
 
-  async function byUserId(username) {
+  async function byUsername(username) {
     return await knex('blogs').where({ username });
   }
 
@@ -34,16 +35,17 @@ export default function blogRepo({ knex }) {
 
   async function update(params) {
     return (await knex('blogs')
-      .update(params)
-      .where({ id: params.id })
+      .update(omit(['blog_id'], params))
+      .where({ id: params.blog_id })
       .returning('*')
     )[0];
   }
 
   async function del(params) {
+    await commentRepo.delByBlogId(params.blog_id);
     return (await knex('blogs')
       .del()
-      .where({ id: params.id })
+      .where({ id: params.blog_id })
       .returning('*')
     )[0];
   }
