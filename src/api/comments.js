@@ -34,10 +34,11 @@ function makeCommentApi({ commentService }) {
   }
 }
 
+
 export default function(router) {
   const api = makeInvoker(makeCommentApi);
 
-  // TODO: Assumes that anyone can see blogs
+  // TODO: Assumes that anyone can see comments
   router.get('/comments', api('getComment'));
   router.post('/comments', protect, api('postComment'));
   router.put('/comments', protect, api('putComment'));

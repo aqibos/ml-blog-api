@@ -13,14 +13,13 @@ export default function blogRepo({ knex, commentRepo }) {
   };
 
   async function all(start = 0) {
-    const BLOG_LIMIT =  20;
-
-    const blogCount = (await knex('blogs').count('*'))[0].count;
+    const blogCount = parseInt((await knex('blogs').count('*'))[0].count);
+    const blogLimit = 20;
     const blogs = await knex('blogs')
-      .limit(BLOG_LIMIT)
-      .offset(start * BLOG_LIMIT)
+      .limit(blogLimit)
+      .offset(start * blogLimit)
       .orderBy('datetime', 'desc');
-    return { blogs, blogCount };
+    return { blogs, blogLimit, blogCount };
   }
 
   async function byUsername(username) {

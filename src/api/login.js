@@ -18,7 +18,7 @@ function makeLoginApi({ loginService }) {
   }
 
   async function logout(ctx) {
-    const loggedInUser = ctx.session.user;
+    const loggedInUser = ctx.session;
     if (loggedInUser) {
       ctx.session.user = null;
       ctx.session.username = null;

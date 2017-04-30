@@ -43,4 +43,3 @@ export default function(router) {
   router.put('/blogs', protect, api('putBlog'));
   router.delete('/blogs', protect, api('deleteBlog'));
 }
-
