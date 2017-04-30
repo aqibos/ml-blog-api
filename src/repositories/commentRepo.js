@@ -47,7 +47,6 @@ export default function commentRepo({ knex }) {
   }
 
   async function update(params) {
-    console.log('PARAMS', params);
     return (await knex('comments')
       .update({ content: params.content })
       .where({ id: params.comment_id })

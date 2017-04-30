@@ -5,7 +5,6 @@ function myValidate(constraints, params, error) {
   const result = validate(params, constraints);
   if (result) {
     const errors = values(result).map(x => x.join(', ')).join(', ');
-    console.log(errors);
     throw new error.errorFn(errors);
   }
   return params;

@@ -7,7 +7,6 @@ function makeLoginApi({ loginService }) {
 
   async function login(ctx) {
     const { username, password } = ctx.request.body;
-    console.log('Calling POST /login', JSON.stringify(ctx.request.body, null, 2));
     const matchingUser = await loginService.authenticate(username, password);
     if (!matchingUser) throw new InvalidLogin.errorFn(InvalidLogin.message);
 

@@ -12,18 +12,25 @@ export default function blogRepo({ knex, commentRepo }) {
     del      : snakeInCamelOut(del)
   };
 
-  async function all() {
-    return await knex('blogs');
+  async function all(start = 0) {
+    const BLOG_LIMIT =  20;
+    return await knex('blogs')
+      .limit(BLOG_LIMIT)
+      .offset(start * BLOG_LIMIT)
+      .orderBy('datetime', 'desc');
   }
 
   async function byUsername(username) {
-    return await knex('blogs').where({ username });
+    return await knex('blogs')
+      .where({ username })
+      .orderBy('datetime', 'desc');
   }
 
   async function byId(id) {
     return await knex('blogs')
       .where({ id })
-      .first('*');
+      .first('*')
+      .orderBy('datetime', 'desc');
   }
 
   async function create(params) {

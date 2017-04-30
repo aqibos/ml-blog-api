@@ -17,9 +17,11 @@ export default function blogService({ blogRepo }) {
 
   async function getBlog(queryConstraints) {
     const { id, userId } = queryConstraints;
+    let start = queryConstraints.start;
+    if (Number.isNaN(parseInt(start))) start = 0;
     return id     ? await blogRepo.byId(id) :
            userId ? await blogRepo.userId(userId) :
-                    await blogRepo.all();
+                    await blogRepo.all(start);
   }
 
   async function createBlog(params) {

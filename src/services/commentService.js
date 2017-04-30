@@ -7,7 +7,7 @@ import {
 import {
   validate,
   newCommentConstraints,
-  modifyCommentConstraints,
+  modifiyCommentConstraints,
   deleteCommentConstraints
 } from '../lib/validate';
 
@@ -29,10 +29,9 @@ export default function commentService({ commentRepo }) {
   }
 
   async function updateComment(params) {
-    validate(modifyCommentConstraints, params, InvalidCommentUpdate);
+    validate(modifiyCommentConstraints, params, InvalidCommentUpdate);
     const { commentId, username } = params;
     const isOwner = await validateOwnership(commentId, username);
-    console.log('Is owner', isOwner);
     if (!isOwner) throw new InvalidOwnerError.errorFn(InvalidOwnerError.message);
     return await commentRepo.update(params);
   }
