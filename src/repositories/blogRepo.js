@@ -14,10 +14,13 @@ export default function blogRepo({ knex, commentRepo }) {
 
   async function all(start = 0) {
     const BLOG_LIMIT =  20;
-    return await knex('blogs')
+
+    const blogCount = (await knex('blogs').count('*'))[0].count;
+    const blogs = await knex('blogs')
       .limit(BLOG_LIMIT)
       .offset(start * BLOG_LIMIT)
       .orderBy('datetime', 'desc');
+    return { blogs, blogCount };
   }
 
   async function byUsername(username) {
