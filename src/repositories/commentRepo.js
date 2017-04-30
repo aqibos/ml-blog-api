@@ -35,11 +35,9 @@ export default function commentRepo({ knex }) {
       .first('*');
   }
 
-  // TODO: Convert 'blogs' to 'posts'
   async function create(params) {
     const post_id = parseInt(params.blog_id); // Must use snake case in repo
     const modifiedParams = pipe(omit(['blog_id']), merge({ post_id }))(params);
-    console.log('Here are modified params', modifiedParams);
     return (await knex('comments')
       .insert(modifiedParams)
       .returning('*')

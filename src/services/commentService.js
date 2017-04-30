@@ -25,8 +25,9 @@ export default function commentService({ commentRepo, pusher }) {
 
   async function createComment(params) {
     validate(newCommentConstraints, params, InvalidComment);
-    pusher.trigger('blog-' + params.blogId, 'new-comment', params);
-    return await commentRepo.create(params);
+    const newComment = await commentRepo.create(params);
+    pusher.trigger('blog-' + params.blogId, 'new-comment', newComment);
+    return newComment;
   }
 
   async function updateComment(params) {
