@@ -11,7 +11,7 @@ import {
   deleteCommentConstraints
 } from '../lib/validate';
 
-export default function commentService({ commentRepo }) {
+export default function commentService({ commentRepo, pusher }) {
 
   return { getComment, createComment, updateComment, deleteComment };
 
@@ -25,6 +25,7 @@ export default function commentService({ commentRepo }) {
 
   async function createComment(params) {
     validate(newCommentConstraints, params, InvalidComment);
+    pusher.trigger('blog-' + params.blogId, 'new-comment', params);
     return await commentRepo.create(params);
   }
 

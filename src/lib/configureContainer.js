@@ -4,6 +4,7 @@ import knex from 'knex';
 const productionModules = [
   'services/*.js',
   'repositories/*.js',
+  'vendors/*.js',
   ['middleware/errorHandler.js', Lifetime.SINGLETON]
 ];
 
